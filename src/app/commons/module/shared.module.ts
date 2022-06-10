@@ -1,5 +1,6 @@
 
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
 import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
@@ -19,6 +20,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
   declarations: [
   ],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     MatSliderModule,
     MatCardModule,
     MatTabsModule,
@@ -35,6 +38,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatProgressSpinnerModule
   ],
   exports: [
+    FormsModule,
+    ReactiveFormsModule,
     MatSliderModule,
     MatCardModule,
     MatTabsModule,

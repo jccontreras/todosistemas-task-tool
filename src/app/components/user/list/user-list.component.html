@@ -1,0 +1,71 @@
+<div class="container">
+    <mat-card class="mt-5">
+      <mat-card-title>
+        Users List
+        <button mat-raised-button color="primary" style="margin-left: 850px;" (click)="openCreateUpdateDialog()">
+          <mat-icon>add</mat-icon> Add User
+        </button>
+      </mat-card-title>
+      <mat-card-content>
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" #table>
+            <!-- id Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+              </ng-container>
+
+            <!-- employeeId Column -->
+            <ng-container matColumnDef="employeeId">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee ID </th>
+              <td mat-cell *matCellDef="let element"> {{element.employeeId}}</td>
+            </ng-container>
+  
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+  
+            <!-- dni Column -->
+            <ng-container matColumnDef="dni">
+              <th mat-header-cell *matHeaderCellDef> DNI </th>
+              <td mat-cell *matCellDef="let element"> {{element.dni}} </td>
+            </ng-container>
+  
+            <!-- contactNumber Column -->
+            <ng-container matColumnDef="contactNumber">
+              <th mat-header-cell *matHeaderCellDef> Contact Number </th>
+              <td mat-cell *matCellDef="let element"> {{element.contactNumber}} </td>
+            </ng-container>
+  
+            <!-- email Column -->
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef> Email </th>
+              <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+            </ng-container>
+  
+            <!-- actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="primary"(click)="editUser(element)" matTooltip="Edit User">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" [hidden]="userHasTask(element)" (click)="deleteUser(element)" matTooltip="Delete User">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+  
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+  
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+            aria-label="Select page of periodic elements">
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>

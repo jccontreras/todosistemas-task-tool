@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>User Info <mat-label>({{user.employeeId}})</mat-label></h1>
+<div mat-dialog-content>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <strong>Name:</strong> &nbsp; 
+                <mat-label>{{user.name}}</mat-label>
+            </div>
+            <div class="col">
+                <strong>DNI:</strong> &nbsp;
+                <mat-label>{{user.dni}}</mat-label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <strong>Contact Number:</strong> &nbsp;
+                <mat-label>{{user.contactNumber}}</mat-label>
+            </div>
+            <div class="col">
+                <strong>Email:</strong> &nbsp;
+                <mat-label>{{user.email}}</mat-label>
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="onOkClick()">
+        Ok
+    </button>
+</div>

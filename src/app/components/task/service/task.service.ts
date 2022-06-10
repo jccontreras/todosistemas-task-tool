@@ -13,7 +13,7 @@ export class TaskService {
   private _tasksList: BehaviorSubject<ITask[]>;
   private _usersList: BehaviorSubject<IUser[]>;
 
-  constructor(private _apiTaskService: ApiTaksService, private _apiUserService: ApiUsersService) { 
+  constructor(private _apiTaskService: ApiTaksService, private _apiUserService: ApiUsersService) {
     this._tasksList = new BehaviorSubject<ITask[]>([]);
     this._usersList = new BehaviorSubject<IUser[]>([]);
   }
@@ -44,7 +44,25 @@ export class TaskService {
     });
   }
 
-  public deleteTask(id: number) {
-    this._apiTaskService.delete(id).subscribe();
+  public createTask(task: ITask) {
+    this._apiTaskService.create(task).subscribe({
+      next: (resp) => {
+        this.getTasksList();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  public updateTask(task: ITask) {
+    this._apiTaskService.update(task).subscribe({
+      next: (resp) => {
+        this.getTasksList();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 }

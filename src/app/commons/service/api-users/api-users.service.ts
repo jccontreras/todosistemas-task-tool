@@ -24,4 +24,12 @@ export class ApiUsersService {
   create(object: IUser): Observable<any> {
     return this.http.post<any>(this.context, object);
   } 
+
+  update(object: IUser): Observable<any> {
+    return this.http.put<any>(this.context, object);
+  } 
+
+  delete(id:number): Observable<any> {
+    return this.http.delete<any>(`${this.context}/${id}`);
+  }
 }

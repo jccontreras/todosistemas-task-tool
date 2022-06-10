@@ -1,0 +1,73 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<form [formGroup]="userForm">
+    <div mat-dialog-content>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label>DNI</mat-label>
+                        <input matInput formControlName="dni" maxlength="15">
+                        <mat-error *ngIf="userForm.controls['dni'].hasError('required')">
+                            DNI is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name" maxlength="60">
+                        <mat-error *ngIf="userForm.controls['name'].hasError('required')">
+                            Name is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label>Contact Number</mat-label>
+                        <input matInput formControlName="contactNumber" maxlength="10">
+                        <mat-error *ngIf="userForm.controls['contactNumber'].hasError('required')">
+                            Contact Number is <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="userForm.controls['contactNumber'].hasError('pattern')">
+                            Contact Number just accept numbers
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label>Employee ID</mat-label>
+                        <input matInput formControlName="employeeId" maxlength="6">
+                        <mat-error *ngIf="userForm.controls['employeeId'].hasError('required')">
+                            Employee ID is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" maxlength="50">
+                        <mat-error *ngIf="userForm.controls['email'].hasError('required')">
+                            Email is <strong>required</strong>
+                        </mat-error>
+                        <mat-error *ngIf="userForm.controls['email'].hasError('email')">
+                            Please enter a valid email address
+                          </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button color="warn" (click)="onCancelClick()">
+            <mat-icon>close</mat-icon> Cancel
+        </button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="data" cdkFocusInitial (click)="OnSubmitClick()"
+            [disabled]="userForm.invalid">
+            <mat-icon>done</mat-icon> {{buttonLabel}}
+        </button>
+    </div>
+</form>

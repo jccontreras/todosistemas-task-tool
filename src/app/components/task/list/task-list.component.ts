@@ -1,11 +1,12 @@
-import { DataRowOutlet } from '@angular/cdk/table';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ITask } from 'src/app/commons/model/Task';
+import { ApiTaksService } from 'src/app/commons/service/api-tasks/api-taks.service';
 import { CreateUpdateTaskComponent } from '../create-edit/create-update-task.component';
 import { TaskService } from '../service/task.service';
+import { UserInfoComponent } from '../user-info/user-info.component';
 
 @Component({
   selector: 'app-task-list',
@@ -15,14 +16,14 @@ import { TaskService } from '../service/task.service';
 export class TaskListComponent implements OnInit, AfterViewInit {
 
   private _tasksList: ITask[] = [];
-  private _task: ITask={};
+  private _task: ITask = {};
   displayedColumns: string[] = ['id', 'name', 'description', 'state', 'creationDate', 'toDoDate', 'delay', 'user', 'actions'];
   dataSource = new MatTableDataSource<ITask>(this._tasksList);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild("table") table!: MatTableDataSource<ITask>;
 
   constructor(private _service: TaskService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private _apiTaskService: ApiTaksService) {
   }
 
   ngOnInit(): void {
@@ -76,45 +77,54 @@ export class TaskListComponent implements OnInit, AfterViewInit {
   }
 
   public getDelayDays(element: ITask) {
-    let actualDate = new Date();
-    let array = element.toDoDate?.toString().split('-');
-    let toDoDate;
-    if (array != undefined) {
-      toDoDate = new Date(Number(array[0]), Number(array[1]) - 1, Number(array[2]));
-    }
-    let miliseg = 24 * 60 * 60 * 1000;
-    let milsegtrans;
-    let daysTrans;
-    if (toDoDate != undefined) {
-      milsegtrans = Math.abs(actualDate.getTime() - toDoDate.getTime());
-      daysTrans = Math.round(milsegtrans / miliseg);
-      if (toDoDate.getTime() > actualDate.getTime()) {
-        return 0;
+    if (element.state != "D") {
+      let actualDate = new Date();
+      let array = element.toDoDate?.toString().split('-');
+      let toDoDate;
+      if (array != undefined) {
+        toDoDate = new Date(Number(array[0]), Number(array[1]) - 1, Number(array[2]));
       }
+      let miliseg = 24 * 60 * 60 * 1000;
+      let milsegtrans;
+      let daysTrans;
+      if (toDoDate != undefined) {
+        milsegtrans = Math.abs(actualDate.getTime() - toDoDate.getTime());
+        daysTrans = Math.round(milsegtrans / miliseg);
+        if (toDoDate.getTime() > actualDate.getTime()) {
+          return 0;
+        }
+      }
+      return daysTrans;
     }
-    return daysTrans;
-  }
-
-  public getDelayStyle(delay: number) {
-    var style = "";
-    if (delay > 0) {
-      style = "color: red;"
-    }
-    return style
+    return 0;
   }
 
   deleteTask(element: ITask) {
     if (element.id != undefined) {
-      this._service.deleteTask(element.id);
-      console.log("entro al if")
-      this._getTaskList();
+      this._apiTaskService.delete(element.id).subscribe({
+        next: (resp) => {
+          this._service.getTasksList();
+        }
+      });
     }
   }
 
   editTask(element: ITask) {
-    console.log(element,'element')
     this._task = element;
     this.openCreateUpdateDialog();
+  }
+
+  nextTaskStep(element: ITask) {
+    switch (element.state) {
+      case "C":
+        element.state = "P";
+        this._service.updateTask(element);
+        break;
+      case "P":
+        element.state = "D";
+        this._service.updateTask(element);
+        break;
+    }
   }
 
   userTask() {
@@ -127,15 +137,22 @@ export class TaskListComponent implements OnInit, AfterViewInit {
   }
 
   public openCreateUpdateDialog(): void {
-    
     const dialogRef = this.dialog.open(CreateUpdateTaskComponent, {
       width: '600px',
       data: this._task,
     });
-
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
+      this._task = {};
+      this._service.getTasksList();
+    });
+  }
+
+  public openUserInfoDialog(element: ITask): void {
+    const dialogRef = this.dialog.open(UserInfoComponent, {
+      width: '500px',
+      data: {id: element.employee},
+    });
+    dialogRef.afterClosed().subscribe(result => {
     });
   }
 }

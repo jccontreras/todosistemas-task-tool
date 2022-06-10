@@ -55,7 +55,7 @@
           <ng-container matColumnDef="user">
             <th mat-header-cell *matHeaderCellDef> User Contact </th>
             <td mat-cell *matCellDef="let element">
-              <button mat-icon-button (click)="userTask()" matTooltip="View User Info">
+              <button mat-icon-button (click)="openUserInfoDialog(element)" matTooltip="View User Info">
                 <mat-icon class="userIcon">person</mat-icon>
               </button>
             </td>
@@ -65,6 +65,9 @@
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Actions </th>
             <td mat-cell *matCellDef="let element">
+              <button [hidden]="element.state == 'D'" mat-icon-button color="accent" (click)="nextTaskStep(element)" matTooltip="Next Task Step">
+                <mat-icon>next_plan</mat-icon>
+              </button>
               <button mat-icon-button color="primary" (click)="editTask(element)" matTooltip="Edit Task">
                 <mat-icon>edit</mat-icon>
               </button>
