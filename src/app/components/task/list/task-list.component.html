@@ -1,0 +1,88 @@
+<div class="container">
+  <mat-card class="mt-5">
+    <mat-card-title>
+      Tasks List
+      <button mat-raised-button color="primary" style="margin-left: 850px;" (click)="openCreateUpdateDialog()">
+        <mat-icon>add</mat-icon> Add Task
+      </button>
+    </mat-card-title>
+    <mat-card-content>
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" #table>
+          <!-- id Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <!-- description Column -->
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+          </ng-container>
+
+          <!-- state Column -->
+          <ng-container matColumnDef="state">
+            <th mat-header-cell *matHeaderCellDef> State </th>
+            <td mat-cell *matCellDef="let element" [style]="getStateStyle(element.state)"> {{getState(element.state)}} </td>
+          </ng-container>
+
+          <!-- creationDate Column -->
+          <ng-container matColumnDef="creationDate">
+            <th mat-header-cell *matHeaderCellDef> Creation Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.creationDate}} </td>
+          </ng-container>
+
+          <!-- toDoDate Column -->
+          <ng-container matColumnDef="toDoDate">
+            <th mat-header-cell *matHeaderCellDef> To Do Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.toDoDate}} </td>
+          </ng-container>
+
+          <!-- delay Column -->
+          <ng-container matColumnDef="delay">
+            <th mat-header-cell *matHeaderCellDef> Delay Days </th>
+            <td mat-cell *matCellDef="let element"> {{getDelayDays(element)}} </td>
+          </ng-container>
+
+          <!-- user Column -->
+          <ng-container matColumnDef="user">
+            <th mat-header-cell *matHeaderCellDef> User Contact </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button (click)="userTask()" matTooltip="View User Info">
+                <mat-icon class="userIcon">person</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <!-- actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="primary" (click)="editTask(element)" matTooltip="Edit Task">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteTask(element)" matTooltip="Delete Task">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+          aria-label="Select page of periodic elements">
+        </mat-paginator>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>

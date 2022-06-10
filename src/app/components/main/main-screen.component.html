@@ -1,0 +1,15 @@
+<mat-tab-group animationDuration="1000ms">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>account_circle</mat-icon>
+            Manage User
+        </ng-template>
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon>fact_check</mat-icon>
+            Manage Tasks
+        </ng-template>
+        <app-task-list></app-task-list>
+    </mat-tab>
+</mat-tab-group>
